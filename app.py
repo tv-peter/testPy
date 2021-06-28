@@ -2,10 +2,13 @@ from flask import Flask
 from flask import request
 import jsonschema
 from jsonschema import validate
-# import json
+import json
 
 
 app = Flask(__name__)
+
+with open('animals.json',encoding="utf-8") as f:
+    animals = json.load(f)
 
 def getResult_string(animal,sound,count,delimeter):
     result_String = ""
@@ -20,6 +23,8 @@ def get_method():
     animal = request.args.get('animal')
     sound = request.args.get('sound')
     count = request.args.get('count')
+    default_animal=animals["cow"]
+    animal=animals.get(animal,default_animal)
     result_string=getResult_string(animal,sound,count,'<br>')
     return result_string
 
